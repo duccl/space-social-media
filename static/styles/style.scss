@@ -379,3 +379,34 @@ code{
     transform:rotate(-360deg)
   }
 }
+
+section{
+  height: 100%;
+  float: left;
+  width: 100%;
+  position: absolute;
+  z-index: 999;
+}
+
+#content{
+  display: flex;
+  color: white;
+  padding-left: 60px;
+  padding-top: 40px;
+  flex-direction: column;
+}
+
+#content .title {
+  font-size: 3em;
+  font-style: italic;
+}
+
+#content .wrapper{
+  font-style: 2em;
+}
+
+#content p {
+  opacity: 0;
+  text-align: center;
+  width: 30%;
+}
