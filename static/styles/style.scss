@@ -149,7 +149,7 @@ code{
     top:50%;
     left:50%;
     position:absolute;
-    z-index:999;
+    z-index:-1;
     &:not(.sun){
       border: 1px solid rgba(102, 166, 229, 0.12);
       &:before{
@@ -388,12 +388,22 @@ section{
   z-index: 999;
 }
 
+section *{
+  z-index: 999;
+}
+
+hr{
+  color: white;
+  background: white;
+}
+
 #content{
   display: flex;
   color: white;
   padding-left: 60px;
   padding-top: 40px;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 #content .title {
@@ -402,11 +412,56 @@ section{
 }
 
 #content .wrapper{
+  display: flex;
   font-style: 2em;
+  flex-grow: 1;
+}
+
+#content .wrapper.flex-column-grow{
+  flex-direction: column;
+  flex-grow: 2;
+}
+
+form{
+  background: #fff;
+  padding: 1em 4em 2em;
+  box-shadow: 0 0 1em #222;
+  border-radius: 5px;
+  font-size: 0.8em;
+  color: black;
+  font-weight: bold;
+}
+
+.justify-content-center{
+  justify-content: center;
+}
+
+.fade-in{
+  opacity: 1;
+  animation: fade 3s linear;
+}
+
+@keyframes fade{
+  0% { opacity: 0 }
+  100% { opacity: 1 }
+}
+
+form input{
+  width: 75%;
+}
+
+form input[type="submit"]{
+  background-color: #20FC8F;
+  width: 100%;
+}
+
+ul {
+  list-style-type: none;
 }
 
 #content p {
-  opacity: 0;
+  opacity: 1;
+  animation: fade 2s linear;
   text-align: center;
-  width: 30%;
+  width: fit-content;
 }
