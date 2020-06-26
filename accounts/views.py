@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.generic import RedirectView
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
@@ -12,6 +15,11 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     model = User
     success_url = ''
+    
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('accounts:profile',kwargs={'id':request.user.pk}))
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,6 +36,12 @@ class UserLoginView(LoginView):
         context = super().get_context_data(**kwargs)
         context["title"] = "Login"
         return context
+
+class UserLogoutView(RedirectView):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect(reverse('accounts:home'))
+
     
 
 class ProfileView(LoginRequiredMixin,DetailView):
