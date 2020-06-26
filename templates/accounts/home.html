@@ -3,7 +3,7 @@
 
 {%block content%}
 <div id="content" class="left-align roboto">
-    <div class="wrapper flex-column-grow ">
+    <div class="wrapper flex-column-grow">
         <p class='title'>
             Space Social Media
         </p>
@@ -15,12 +15,14 @@
             If you wish to join sign-up <strong>now</strong>!
         </p>
     </div>
-    <div class='wrapper justify-content-center fade-in'>
-        <form method="post">
-            {%csrf_token%}
-            {{form | crispy}}
-            <input type="submit" class='btn btn btn-light' value="Sign-Up">
-        </form>
+    <div class='container justify-content-right' id="form-content" >
+        <div class='wrapper justify-content-right row-reverse fade-in'>
+            <form method="post">
+                {%csrf_token%}
+                {{form | crispy}}
+                <input type="submit" class='btn btn btn-light' value="Sign-Up">
+            </form>
+        </div>
     </div>
 </div>
 {%endblock%}

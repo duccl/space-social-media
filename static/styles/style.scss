@@ -420,14 +420,39 @@ hr{
 #content .wrapper.flex-column-grow{
   flex-direction: column;
   flex-grow: 2;
+  transform: skew(2deg,1deg);
+  transition: 1s ease-out;
+}
+
+#content .wrapper.flex-column-grow:hover{
+  flex-direction: column;
+  flex-grow: 2;
+  transform: skew(0deg,0deg);
+  transition: 1s ease-in;
+}
+
+#form-content{
+  background: transparent;
+  padding: 1em 4em 2em;
+  width: 40%;
+}
+
+.justify-content-right{
+  justify-content: end;
+}
+
+.row-reverse{
+  flex-direction: row-reverse;
 }
 
 form{
-  background: #fff;
-  padding: 1em 4em 2em;
+  background: #ffff;
+  padding: 2em 2em;
+  height: 100%;
+  width: 100%;
+  font-size: 0.8em;
   box-shadow: 0 0 1em #222;
   border-radius: 5px;
-  font-size: 0.8em;
   color: black;
   font-weight: bold;
 }
@@ -453,6 +478,10 @@ form input{
 form input[type="submit"]{
   background-color: #20FC8F;
   width: 100%;
+}
+
+form .controls ul{
+  display: none;
 }
 
 ul {
