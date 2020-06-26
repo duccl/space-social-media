@@ -40,9 +40,7 @@ class UserLoginView(LoginView):
 class UserLogoutView(RedirectView):
     def get(self, request, *args, **kwargs):
         logout(request)
-        return HttpResponseRedirect(reverse('accounts:home'))
-
-    
+        return HttpResponseRedirect(reverse('accounts:home')) 
 
 class ProfileView(LoginRequiredMixin,DetailView):
     context_object_name = 'user'
