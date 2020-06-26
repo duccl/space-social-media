@@ -14,3 +14,14 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("social:detail", kwargs={"id": self.pk})
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    comment_author = models.ForeignKey(User,on_delete=models.CASCADE,related_name='comment_author')
+    comment_created_date = models.DateTimeField(auto_now=True)
+    comment_content = models.TextField()
+
+    def get_absolute_url(self):
+        return reverse("social:detail", kwargs={"id": self.post.pk})
+    
