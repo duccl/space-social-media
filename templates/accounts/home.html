@@ -15,9 +15,9 @@
             If you wish to join sign-up <strong>now</strong>!
         </p>
     </div>
-    <div class='container justify-content-right' id="form-content" >
+    <div class='container justify-content-right' id="form-content">
         <div class='wrapper justify-content-right row-reverse fade-in'>
-            <form method="post">
+            <form method="post" id="form-home">
                 {%csrf_token%}
                 {{form | crispy}}
                 <input type="submit" class='btn btn btn-light' value="Sign-Up">
