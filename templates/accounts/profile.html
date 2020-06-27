@@ -9,7 +9,7 @@
         <div class="card margin-bottom group-desc">
             <div class="card-body">
                 <div class="card-title">
-                    <a class='detail-link' href="#">{{group.name}}</a>
+                    <a class='detail-link' href="{%url 'social:post_list' id=group.pk%}">{{group.name}}</a>
                 </div>
                 <div class="card-text">Users: {{group.user_set.all.count}}</div>
             </div>
