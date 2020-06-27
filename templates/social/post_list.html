@@ -5,8 +5,10 @@
     {%for post in posts%}
     <div>
         {{post.title}}
-        <p>See <a href="{%url 'social:post_detail' post_id=post.id%}">More</a></p>
+        <p>See <a href="{%url 'social:post_detail' post_id=post.pk id=post.topic.pk%}">More</a></p>
     </div>
     {%endfor%}
+
+    <p><a href="{%url 'social:post_create'%}">IR</a></p>
 </div>
 {%endblock%}
