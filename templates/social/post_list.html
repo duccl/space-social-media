@@ -5,6 +5,7 @@
     {%for post in posts%}
     <div>
         {{post.title}}
+        <p>See <a href="{%url 'social:post_detail' post_id=post.id%}">More</a></p>
     </div>
     {%endfor%}
 </div>
