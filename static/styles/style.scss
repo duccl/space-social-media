@@ -411,6 +411,11 @@ hr{
   font-style: italic;
 }
 
+.wrapper{
+  margin: 2em;
+  color: black;
+}
+
 #content .wrapper{
   display: flex;
   font-style: 2em;
@@ -443,6 +448,7 @@ hr{
 }
 
 .row-reverse{
+  display: flex;
   flex-direction: row-reverse;
 }
 
@@ -559,3 +565,13 @@ ul {
   width: fit-content;
 }
 
+#detail-content{
+  padding: 5em;
+  display: flex;
+  color: white;
+  flex-direction: column;
+}
+
+#detail-content a{
+  width:fit-content;
+}

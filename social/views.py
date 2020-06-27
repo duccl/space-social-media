@@ -17,6 +17,28 @@ class HomeView(TemplateView):
         context["title"] = "Home"
         return context
 
+class CommentCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
+    model = models.Comment
+    template_name = "social/comment_create.html"
+    permission_required = ('social.add_comment')
+    fields = ('comment_content',)
+
+    def form_valid(self, form):
+        user = get_object_or_404(User,pk=self.request.user.pk)
+        post = get_object_or_404(models.Post,id=self.kwargs['post_id'])
+        comment = form.save(commit=False)
+        comment.comment_author =user
+        comment.post = post
+        comment.save()
+        return HttpResponseRedirect(reverse('social:post_detail',kwargs={'id':self.kwargs['id'],'post_id':post.id}))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "New comment"
+        return context
+    
+    
+
 
 class PostDetailView(LoginRequiredMixin,PermissionRequiredMixin,DetailView):
     permission_required = ('social.view_post')
@@ -28,6 +50,8 @@ class PostDetailView(LoginRequiredMixin,PermissionRequiredMixin,DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['comments'] = models.Comment.objects.filter(post=self.get_object())
+        context['topic_id'] = self.kwargs['id']
         context["title"] = self.get_object().title
         return context
     

@@ -1,13 +1,30 @@
 {%extends '../base.html'%}
 
 {%block content%}
-<div id="content" class="left-align roboto">
-    <p>{{post.title}}</p>
-    <p>{{post.author}}</p>
-    <p id='conteudo'>{{post.content}}</p>
-    {%if user == post.author %}
-        <a class = 'btn btn-danger' href="{%url 'social:post_delete' post_id=post.id%}">Delete</a>
+<div id="detail-content" class="container roboto">
+    <div class="flex-direction-column">
+        <p>{{post.title}}</p>
+        <p>{{post.author}}</p>
+        <p id='conteudo'>{{post.content}}</p>
+        {%if user == post.author %}
+        <a class='btn btn-danger' href="{%url 'social:post_delete' post_id=post.id%}">Delete</a>
         <a href="#">Edit</a>
-    {%endif%}
+        {%endif%}
+    </div>
+    <div class="row-reverse">
+        <a href="{%url 'social:comment_create' post_id=post.id id=topic_id%}" class="btn btn-primary">Comment</a>
+    </div>
+    <div class="wrapper">
+        <ul class="list-group">
+            {%for comment in comments%}
+            <li class="list-group-item">
+                <div class='justify-content-center html-inside'>
+                    <p>{{comment.comment_content}}</p>
+                </div>
+                <p>{{comment.comment_author}}</p>
+            </li>
+            {%endfor%}
+        </ul>
+    </div>
 </div>
 {%endblock%}
