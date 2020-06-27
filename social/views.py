@@ -34,8 +34,8 @@ class PostDetailView(LoginRequiredMixin,PermissionRequiredMixin,DetailView):
 class PostCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
     model = models.Post
     template_name = "social/post_create.html"
-    permission_required = ('social.create_post')
-    fields = ('title','topic','content')
+    permission_required = ('social.add_post')
+    fields = ('title','content')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -43,9 +43,11 @@ class PostCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
         return context
     
     def form_valid(self, form):
+        topic = get_object_or_404(Group,pk = self.kwargs['id'])
         user = get_object_or_404(User,pk = self.request.user.pk)
         post = form.save(commit=False)
         post.author = user
+        post.topic = topic
         post.save()
         return HttpResponseRedirect(reverse('social:post_detail',kwargs={'id':self.kwargs['id'],'post_id':post.id}))
 
