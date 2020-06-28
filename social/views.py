@@ -38,7 +38,6 @@ class CommentCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
         context["title"] = "New comment"
         return context
     
-    
 class PostUpdateView(LoginRequiredMixin,PermissionRequiredMixin,UpdateView):
     permission_required = ('social.change_post')
     model = models.Post
@@ -82,11 +81,15 @@ class PostCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
         context["title"] = "Create Post"
         return context
     
+    def publish(self):
+        return 'Publish' in self.request.POST
+
     def form_valid(self, form):
         topic = get_object_or_404(Group,pk = self.kwargs['id'])
         user = get_object_or_404(User,pk = self.request.user.pk)
         post = form.save(commit=False)
         post.author = user
+        post.is_published = self.publish()
         post.topic = topic
         post.save()
         return HttpResponseRedirect(reverse('social:post_detail',kwargs={'id':self.kwargs['id'],'post_id':post.id}))

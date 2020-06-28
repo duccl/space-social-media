@@ -6,8 +6,8 @@
     <form id="create_post" method="post">
         {%csrf_token%}
         {{form|crispy}}
-        <input type="submit" class='btn btn-danger' value="Publish">
-        <input type="submit" class='btn btn-danger' value="Save">
+        <input type="submit" class='btn btn-danger' name="Publish" value="Publish">
+        <input type="submit" class='btn btn-danger' name="Save" value="Save">
     </form>
 </div>
 {%endblock%}

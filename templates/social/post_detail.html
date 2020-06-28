@@ -8,8 +8,12 @@
         <p id='conteudo'>{{post.content}}</p>
         {%if user == post.author %}
         <div class="row-reverse">
-            <a class='btn btn-danger' href="{%url 'social:post_delete' post_id=post.id%}">Delete</a>
-            <a class='btn btn-success' href="{%url 'social:post_edit' post_id=post.id id=post.topic_id%}">Edit</a>
+            <a class='btn btn-danger' href="{%url 'social:post_delete' post_id=post.id%}">
+                <i class="fas fa-trash-alt"></i>
+            </a>
+            <a class='btn btn-success' href="{%url 'social:post_edit' post_id=post.id id=post.topic_id%}">
+                <i class="fas fa-edit"></i>
+            </a>
         </div>
         {%endif%}
     </div>
