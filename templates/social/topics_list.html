@@ -1,0 +1,12 @@
+{%extends '../base.html'%}
+
+{%block content%}
+<div id="content" class="left-align roboto">
+    {%for topic in topics%}
+    <div>
+        {{topic.name}}
+        <a href="#">Join</a>
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}

@@ -11,4 +11,5 @@ urlpatterns = [
     path('drafts/',views.DraftListView.as_view(),name='posts_draft'),
     path('edit_comment/<int:comment_id>',views.CommentUpdateView.as_view(),name='comment_edit'),
     path('delete_post/<int:post_id>',views.PostDeleteView.as_view(),name='post_delete'),
+    path('topics/',views.TopicListView.as_view(),name='topics')
 ]

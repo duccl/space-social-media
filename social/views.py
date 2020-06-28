@@ -72,6 +72,10 @@ class CommentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     def get_success_url(self):
         return reverse_lazy('social:post_detail', kwargs={'id': self.get_object().post.topic.pk, 'post_id': self.get_object().post.id})
 
+class TopicListView(LoginRequiredMixin,ListView):
+    model = Group
+    template_name = 'social/topics_list.html'
+    context_object_name = 'topics'
 
 class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = ('social.change_post')
