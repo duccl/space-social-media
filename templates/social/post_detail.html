@@ -7,8 +7,10 @@
         <p>{{post.author}}</p>
         <p id='conteudo'>{{post.content}}</p>
         {%if user == post.author %}
-        <a class='btn btn-danger' href="{%url 'social:post_delete' post_id=post.id%}">Delete</a>
-        <a href="#">Edit</a>
+        <div class="row-reverse">
+            <a class='btn btn-danger' href="{%url 'social:post_delete' post_id=post.id%}">Delete</a>
+            <a class='btn btn-success' href="{%url 'social:post_edit' post_id=post.id id=post.topic_id%}">Edit</a>
+        </div>
         {%endif%}
     </div>
     <div class="row-reverse">

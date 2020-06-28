@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.shortcuts import get_object_or_404,get_list_or_404
 from django.views.generic import ListView,CreateView,DeleteView
+from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from . import models
@@ -38,7 +39,22 @@ class CommentCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
         return context
     
     
+class PostUpdateView(LoginRequiredMixin,PermissionRequiredMixin,UpdateView):
+    permission_required = ('social.change_post')
+    model = models.Post
+    template_name = 'social/post_edit.html'
+    slug_field = 'id'
+    slug_url_kwarg = 'post_id'
+    fields = ('title','content')
 
+    def get_success_url(self):
+        return reverse('social:post_detail',kwargs=self.kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = f'Edit {self.get_object().title}'
+        return context
+    
 
 class PostDetailView(LoginRequiredMixin,PermissionRequiredMixin,DetailView):
     permission_required = ('social.view_post')

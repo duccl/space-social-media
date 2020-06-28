@@ -1,0 +1,12 @@
+{%extends '../base.html'%}
+{% load crispy_forms_tags%}
+
+{%block content%}
+<div class="container">
+    <form id="edit_post" method="post">
+        {%csrf_token%}
+        {{form|crispy}}
+        <input type="submit" class='btn btn-primary' value="Commit Changes">
+    </form>
+</div>
+{%endblock%}
