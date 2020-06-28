@@ -416,6 +416,10 @@ hr{
   color: black;
 }
 
+.font-white{
+  color:white;
+}
+
 #content .wrapper{
   display: flex;
   font-style: 2em;
@@ -469,11 +473,20 @@ h3{
   word-break: break-all;
   height: 100%;
   width: 100%;
-  font-size: 0.8em;
+  font-size: 0.7em;
   box-shadow: 0 0 1em #222;
   border-radius: 5px;
   color: black;
   font-weight: bold;
+}
+
+label[for="id_is_published"]{
+  margin-left:10px;
+}
+
+#div_id_is_published div.controls{
+  display: flex;
+  align-items: baseline;
 }
 
 #profile-content .detail-link{

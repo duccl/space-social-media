@@ -19,7 +19,6 @@ class HomeView(TemplateView):
         context["title"] = "Home"
         return context
 
-
 class CommentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = models.Comment
     template_name = "social/comment_create.html"
@@ -80,7 +79,7 @@ class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'social/post_edit.html'
     slug_field = 'id'
     slug_url_kwarg = 'post_id'
-    fields = ('title', 'content')
+    fields = ('title', 'content','is_published')
 
     def get_success_url(self):
         return reverse('social:post_detail', kwargs=self.kwargs)
@@ -143,6 +142,20 @@ class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse_lazy('accounts:profile', kwargs={'id': self.request.user.pk})
 
+class DraftListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = models.Post
+    template_name = "social/post_list.html"
+    permission_required = ('social.view_post','social.change_post')
+    context_object_name = 'posts'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Drafts'
+        return context
+
+    def get_queryset(self):
+        return models.Post.objects.filter(author = self.request.user,is_published=False)
+    
 
 class PostListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = models.Post

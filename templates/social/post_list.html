@@ -9,11 +9,15 @@
         <p>See <a href="{%url 'social:post_detail' post_id=post.pk id=post.topic.pk%}">More</a></p>
     </div>
     {%endfor%}
+    {%elif topic_id%}
     <p><a href="{%url 'social:post_create' id=topic_id%}">IR</a></p>
-    {%else%}
     <div class='container roboto'>
         <h2>Sorry, we are without posts!</h2>
         <p>Feel free to create <a href="{%url 'social:post_create' id=topic_id%}">one</a></p>
+    </div>
+    {%else%}
+    <div class='container roboto'>
+        <h2>You do not have any drafts!</h2>
     </div>
     {%endif%}
 </div>
