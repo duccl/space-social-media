@@ -12,6 +12,7 @@
                     <a class='detail-link' href="{%url 'social:post_list' id=group.pk%}">{{group.name}}</a>
                 </div>
                 <div class="card-text">Users: {{group.user_set.all.count}}</div>
+                <a href="{%url 'social:remove_from_topic' topic_id=group.pk%}" class="btn btn-danger float-right"><i class="fas fa-trash-alt"></i></a>
             </div>
         </div>
         {%endfor%}

@@ -11,16 +11,32 @@ from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect,Http404
 from django.contrib.auth.decorators import login_required
 
-@login_required
-def join_user_to_topic(request,*args, **kwargs):
+def topics_actions_wrapper(request,*args, **kwargs):
     if(abs(kwargs['topic_id']) < (2 ** 31 - 1)):
         topic = get_object_or_404(Group,pk=kwargs['topic_id'])
         user = get_object_or_404(User,pk=request.user.pk)
-        if user and not user.groups.filter(name = topic.name).exists():
+        if user and not user.groups.filter(name = topic.name).exists() and 'add' in kwargs:
             topic.user_set.add(user)
-            topic.save()
-        return HttpResponseRedirect(reverse('social:topics'))
+        elif user and user.groups.filter(name = topic.name).exists() and 'remove' in kwargs:
+            topic.user_set.remove(user)
+        topic.save()
+        return
     raise Http404()
+
+@login_required
+def join_user_to_topic(request,*args, **kwargs):
+    kwargs['add'] = True
+    topics_actions_wrapper(request,*args,**kwargs)
+    return HttpResponseRedirect(reverse('social:topics'))
+    
+
+@login_required
+def removeUserFromTopic(request,*args, **kwargs):
+    kwargs['remove'] = True
+    topics_actions_wrapper(request,*args,**kwargs)
+    return HttpResponseRedirect(reverse('accounts:profile',kwargs={'id':request.user.pk}))
+
+
 
 class HomeView(TemplateView):
     template_name = 'social/home.html'

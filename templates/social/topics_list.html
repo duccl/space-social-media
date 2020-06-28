@@ -7,7 +7,7 @@
         <p>{{topic.name}}</p>
         <p>Users: {{topic.user_set.all.count}}</p>
         <p>
-            <a href="{% url 'social:join' topic_id=topic.pk%}">Join
+            <a href="{% url 'social:join_topic' topic_id=topic.pk%}">Join
                 <i class="fas fa-plus-circle"></i>
             </a>
         </p>
