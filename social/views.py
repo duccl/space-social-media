@@ -8,8 +8,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from . import models
 from django.contrib.auth.models import Group, User
 from django.urls import reverse, reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,Http404
+from django.contrib.auth.decorators import login_required
 
+@login_required
+def join_user_to_topic(request,*args, **kwargs):
+    if(abs(kwargs['topic_id']) < (2 ** 31 - 1)):
+        topic = get_object_or_404(Group,pk=kwargs['topic_id'])
+        user = get_object_or_404(User,pk=request.user.pk)
+        if user and not user.groups.filter(name = topic.name).exists():
+            topic.user_set.add(user)
+            topic.save()
+        return HttpResponseRedirect(reverse('social:topics'))
+    raise Http404()
 
 class HomeView(TemplateView):
     template_name = 'social/home.html'
