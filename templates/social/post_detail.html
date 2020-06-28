@@ -28,6 +28,14 @@
                     <p>{{comment.comment_content}}</p>
                 </div>
                 <p>{{comment.comment_author}}</p>
+                {%if comment.comment_author == user%}
+                <a class='btn btn-success' href="{%url 'social:comment_edit' comment_id=comment.id%}">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class='btn btn-danger' href="{%url 'social:comment_delete' comment_id=comment.id%}">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+                {%endif%}
             </li>
             {%endfor%}
         </ul>
