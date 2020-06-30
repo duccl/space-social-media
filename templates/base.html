@@ -70,6 +70,9 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
+                        <a class="roboto nav-link" href="{%url 'social:new_topic'%}">New Topic</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="roboto nav-link" href="{%url 'social:posts_draft'%}">Drafts</a>
                     </li>
                     <li class="nav-item">

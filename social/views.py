@@ -6,7 +6,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from . import models
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, User, Permission
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect,Http404
 from django.contrib.auth.decorators import login_required
@@ -36,6 +36,25 @@ def removeUserFromTopic(request,*args, **kwargs):
     topics_actions_wrapper(request,*args,**kwargs)
     return HttpResponseRedirect(reverse('accounts:profile',kwargs={'id':request.user.pk}))
 
+
+class TopicCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
+    model = Group
+    permission_required = ('auth.add_group')
+    template_name = "social/topic_create.html"
+    fields = ('name',)
+
+    def form_valid(self,form):
+        topic = form.save()
+        social_permissions = Permission.objects.filter(content_type__app_label='social').values('id')
+        topic.permissions.add(social_permissions)
+        topic.save()
+        return HttpResponseRedirect(reverse('social:post_list',kwargs={'id':topic.id}))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "New Topic"
+        return context
+    
 
 
 class HomeView(TemplateView):
@@ -196,6 +215,7 @@ class PostListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print(self.kwargs)
         context['topic_id'] = self.kwargs['id']
         return context
 
