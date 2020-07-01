@@ -215,12 +215,8 @@ class PostListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(self.kwargs)
         context['topic_id'] = self.kwargs['id']
         return context
-
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         topic = get_object_or_404(Group, pk=self.kwargs['id'])

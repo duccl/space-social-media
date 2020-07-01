@@ -2,14 +2,16 @@
 
 {%block content%}
 <div id="content" class="left-align roboto">
-    {%if posts %}
+    {%if posts%}
     {%for post in posts%}
     <div>
         {{post.title}}
         <p>See <a href="{%url 'social:post_detail' post_id=post.pk id=post.topic.pk%}">More</a></p>
     </div>
     {%endfor%}
-    <p><a href="{%url 'social:post_create' id=topic_id%}">IR</a></p>
+    {%endif%}
+    {%if topic_id and posts%}
+            <p><a href="{%url 'social:post_create' id=topic_id%}">IR</a></p>
     {%elif topic_id%}
     <div class='container roboto'>
         <h2>Sorry, we are without posts!</h2>
