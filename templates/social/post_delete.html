@@ -1,12 +1,12 @@
 {%extends '../base.html'%}
-{% load crispy_forms_tags%}
+{% load bootstrap3 %}
 
 {%block content%}
 <div class="container">
     <h2>Do you really want to delete this post?</h2>
     <form id="delete_post" method="post">
         {%csrf_token%}
-        {{form|crispy}}
+        {% bootstrap_form form %}
         <input type="submit" class='btn btn-danger' value="Delete">
     </form>
 </div>

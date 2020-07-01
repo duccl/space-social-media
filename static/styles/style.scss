@@ -611,6 +611,16 @@ ul {
   }
 }
 
+div[id*="medium-editor"],div[id*="medium-editor"]::before,div[id*="medium-editor"]::after,div[id*="medium-editor"]:focus{
+  height: fit-content;
+  background-color: transparent;
+  color: white;
+}
+
+textarea[name*="content"]{
+  display: none;
+}
+
 #detail-content a{
   width:fit-content;
   margin-bottom: 10px;
