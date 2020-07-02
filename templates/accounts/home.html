@@ -1,5 +1,5 @@
 {%extends '../base.html'%}
-{%load crispy_forms_tags%}
+{%load bootstrap3%}
 
 {%block content%}
 <div id="content" class="left-align roboto">
@@ -16,10 +16,10 @@
         </p>
     </div>
     <div class='container justify-content-right' id="form-content">
-        <div class='wrapper justify-content-right row-reverse fade-in'>
+        <div class='justify-content-right row-reverse fade-in'>
             <form method="post" id="form-home">
                 {%csrf_token%}
-                {{form | crispy}}
+                {% bootstrap_form form %}
                 <input type="submit" class='btn btn btn-light' value="Sign-Up">
             </form>
         </div>
