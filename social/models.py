@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User,Group
 from django.utils import timezone
 from django.urls import reverse
+from django import template
+register = template.Library()
 
 class Post(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE,related_name='author')
@@ -14,7 +16,6 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("social:detail", kwargs={"id": self.pk})
-
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')

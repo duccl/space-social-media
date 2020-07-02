@@ -1,23 +1,35 @@
 {%extends '../base.html'%}
 
 {%block content%}
-<div id="content" class="left-align roboto">
+<div id="content" class="left-align roboto container">
     {%if posts%}
-    {%for post in posts%}
-    <div>
-        {{post.title}}
-        <p>See <a href="{%url 'social:post_detail' post_id=post.pk id=post.topic.pk%}">More</a></p>
+    <div class="list-group">
+        {%for post in posts%}
+        <a href="{%url 'social:post_detail' post_id=post.pk id=post.topic.pk%}"
+            class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{post.title}}</h5>
+                <small>3 days ago</small>
+            </div>
+            <p class="mb-1">{{post.author}}</p>
+            <small>Posted: {{post.published_date}}</small>
+        </a>
+        {%endfor%}
     </div>
-    {%endfor%}
     {%endif%}
     {%if topic_id and posts%}
-            <p><a href="{%url 'social:post_create' id=topic_id%}">IR</a></p>
+    <div class="margin-top justify-content-flex-end">
+        <a class="btn btn-primary" href="{%url 'social:post_create' id=topic_id%}">
+            <i class="far fa-plus-square"></i>
+        </a>
+    </div>
     {%elif topic_id%}
     <div class='container roboto'>
         <h2>Sorry, we are without posts!</h2>
         <p>Feel free to create <a href="{%url 'social:post_create' id=topic_id%}">one</a></p>
     </div>
-    {%else%}
+    {%endif%}
+    {%if not posts%}
     <div class='container roboto'>
         <h2>You do not have any drafts!</h2>
     </div>

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView,RedirectView
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.views.generic import ListView, CreateView, DeleteView
 from django.views.generic.edit import UpdateView
