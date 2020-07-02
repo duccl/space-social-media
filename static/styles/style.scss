@@ -414,6 +414,11 @@ hr{
   justify-content: flex-end;
 }
 
+#content #topics-list a{
+  color: #20A4F3;
+  background-color: black;
+}
+
 #content .title {
   font-size: 3em;
   font-style: italic;
@@ -539,6 +544,10 @@ textarea{
   margin-bottom: 2em;
 }
 
+.margin-right{
+  margin-right: 20px;
+}
+
 .fade-in{
   opacity: 1;
   animation: fade 3s linear;
@@ -568,7 +577,6 @@ ul {
 
 #profile-content{
   display: flex;
-  flex-direction: row-reverse;
   height: 100%;
   width: 100%;
 }

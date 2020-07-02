@@ -1,17 +1,19 @@
 {%extends '../base.html'%}
 
 {%block content%}
-<div id="content" class="left-align roboto">
-    {%for topic in topics%}
-    <div>
-        <p>{{topic.name}}</p>
-        <p>Users: {{topic.user_set.all.count}}</p>
-        <p>
-            <a href="{% url 'social:join_topic' topic_id=topic.pk%}">Join
-                <i class="fas fa-plus-circle"></i>
-            </a>
-        </p>
+<div id="content" class="left-align roboto container">
+    <div id="topics-list" class="list-group">
+        {%for topic in topics%}
+        <a href="{% url 'social:join_topic' topic_id=topic.pk%}"
+            class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{topic.name}}</h5>
+                <small>3 days ago</small>
+            </div>
+            <p class="mb-1">Join <i class="fas fa-plus-circle"></i></p>
+            <small>Users: {{topic.user_set.all.count}}</small>
+        </a>
+        {%endfor%}
     </div>
-    {%endfor%}
 </div>
 {%endblock%}
