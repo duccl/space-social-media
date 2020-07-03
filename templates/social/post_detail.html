@@ -3,9 +3,11 @@
 {%block content%}
 <div id="detail-content" class="container roboto">
     <div class="flex-direction-column">
-        <p>{{post.title}}</p>
-        <p>{{post.author}}</p>
-        <p id='conteudo'>{{post.content}}</p>
+        <div class="post-header">
+            <h1 class="roboto">{{post.title}}</h1>
+            <p class="font-italic">{{post.author}}</p>
+        </div>
+        <div id='conteudo'>{{post.content}}</div>
         {%if user == post.author %}
         <div class="row-reverse">
             <a class='btn btn-danger' href="{%url 'social:post_delete' post_id=post.id%}">

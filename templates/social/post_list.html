@@ -29,7 +29,7 @@
         <p>Feel free to create <a href="{%url 'social:post_create' id=topic_id%}">one</a></p>
     </div>
     {%endif%}
-    {%if not posts%}
+    {%if not posts and not topic_id%}
     <div class='container roboto'>
         <h2>You do not have any drafts!</h2>
     </div>
