@@ -64,21 +64,22 @@
                     <li class="nav-item active">
                         <a class="roboto nav-link" href="{%url 'social:topics'%}">Topics</a>
                     </li>
+                    {%if topic_id%}
                     <li class="nav-item">
-                        <a class="roboto nav-link" href="#">Link</a>
+                        <a class="roboto nav-link" href="{%url 'social:post_create' id=topic_id%}">New Post</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="roboto nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
+                    {%endif%}
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="roboto nav-link" href="{%url 'social:new_topic'%}">New Topic</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="roboto nav-link" href="{%url 'social:posts_draft'%}">Drafts</a>
+                        </li>
+                    {%endif%}
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="roboto nav-link" href="{%url 'social:new_topic'%}">New Topic</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="roboto nav-link" href="{%url 'social:posts_draft'%}">Drafts</a>
-                    </li>
                     <li class="nav-item">
                         <a class="roboto nav-link" href="{%url 'accounts:profile' id=user.pk%}">Profile</a>
                     </li>

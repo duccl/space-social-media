@@ -662,8 +662,17 @@ textarea[name*="content"]{
   display: none;
 }
 
+input[name="title"],input[name="name"],input[name="name"]:focus{
+  background-color: transparent;
+}
+
 #detail-content a{
   width:fit-content;
   margin-bottom: 10px;
   margin-left: 10px;
+}
+
+#username_display{
+  text-align: center;
+  color: white;
 }

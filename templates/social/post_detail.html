@@ -23,13 +23,17 @@
         <a href="{%url 'social:comment_create' post_id=post.id id=topic_id%}" class="btn btn-primary">Comment</a>
     </div>
     <div class="wrapper">
+        {%if comments%}
+            <h3 class="roboto">Comments</h3>
+            <hr style="background-color: white;">
+        {% endif %}
         <ul class="list-group">
             {%for comment in comments%}
             <li class="list-group-item">
                 <div class='justify-content-center html-inside'>
-                    <p>{{comment.comment_content}}</p>
+                    <p class="roboto">{{comment.comment_content}}</p>
                 </div>
-                <p>{{comment.comment_author}}</p>
+                <p class="font-italic roboto">{{comment.comment_author}}</p>
                 {%if comment.comment_author == user%}
                 <a class='btn btn-success' href="{%url 'social:comment_edit' comment_id=comment.id%}">
                     <i class="fas fa-edit"></i>
