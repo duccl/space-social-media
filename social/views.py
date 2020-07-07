@@ -11,6 +11,9 @@ from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect,Http404
 from django.contrib.auth.decorators import login_required
 
+
+login_url = 'accounts:login'
+
 def topics_actions_wrapper(request,*args, **kwargs):
     if(abs(kwargs['topic_id']) < (2 ** 31 - 1)):
         topic = get_object_or_404(Group,pk=kwargs['topic_id'])
@@ -42,7 +45,7 @@ class TopicCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
     permission_required = ('auth.add_group')
     template_name = "social/topic_create.html"
     fields = ('name',)
-
+    login_url = login_url
     def form_valid(self,form):
         topic = form.save()
         social_permissions = Permission.objects.filter(content_type__app_label='social').values('id')
@@ -70,7 +73,7 @@ class CommentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     template_name = "social/comment_create.html"
     permission_required = ('social.add_comment')
     fields = ('comment_content',)
-
+    login_url = login_url
     def form_valid(self, form):
         user = get_object_or_404(User, pk=self.request.user.pk)
         post = get_object_or_404(models.Post, id=self.kwargs['post_id'])
@@ -92,7 +95,7 @@ class CommentDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
     permission_required = ('social.delete_comment')
     slug_field = 'id'
     slug_url_kwarg = 'comment_id'
-
+    login_url = login_url
     def get_success_url(self):
         return reverse_lazy('social:post_detail', kwargs={'id': self.get_object().post.topic.pk, 'post_id': self.get_object().post.id})
 
@@ -109,7 +112,7 @@ class CommentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     slug_field = 'id'
     slug_url_kwarg = 'comment_id'
     fields = ('comment_content',)
-
+    login_url = login_url
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Edit Comment"
@@ -122,6 +125,7 @@ class TopicListView(LoginRequiredMixin,ListView):
     model = Group
     template_name = 'social/topics_list.html'
     context_object_name = 'topics'
+    login_url = login_url
 
 class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = ('social.change_post')
@@ -130,7 +134,7 @@ class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     slug_field = 'id'
     slug_url_kwarg = 'post_id'
     fields = ('title', 'content','is_published')
-
+    login_url = login_url
     def get_success_url(self):
         return reverse('social:post_detail', kwargs=self.kwargs)
 
@@ -147,7 +151,7 @@ class PostDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     slug_field = 'id'
     slug_url_kwarg = 'post_id'
     context_object_name = 'post'
-
+    login_url = login_url
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] = models.Comment.objects.filter(
@@ -162,7 +166,7 @@ class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = "social/post_create.html"
     permission_required = ('social.add_post')
     fields = ('title', 'content')
-
+    login_url = login_url
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Create Post"
@@ -188,7 +192,7 @@ class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = ('social.delete_post')
     slug_field = 'id'
     slug_url_kwarg = 'post_id'
-
+    login_url = login_url
     def get_success_url(self):
         return reverse_lazy('accounts:profile', kwargs={'id': self.request.user.pk})
 
@@ -197,7 +201,7 @@ class DraftListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "social/post_list.html"
     permission_required = ('social.view_post','social.change_post')
     context_object_name = 'posts'
-
+    login_url = login_url
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Drafts'
@@ -212,7 +216,7 @@ class PostListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "social/post_list.html"
     permission_required = ('social.view_post')
     context_object_name = 'posts'
-
+    login_url = login_url
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['topic_id'] = self.kwargs['id']
