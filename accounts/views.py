@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
-from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 class SignUpView(CreateView):
     template_name = "accounts/home.html"
     form_class = UserCreationForm
@@ -26,14 +26,12 @@ class SignUpView(CreateView):
         context["title"] = "Home"
         return context
 
-class UserLoginView(LoginView):
+class UserLoginView(SuccessMessageMixin,LoginView):
     template_name = 'accounts/login.html'    
+    success_message = "Well Done! You are in!"
+
     def get_success_url(self):
         return reverse('accounts:profile',kwargs={'id':self.request.user.pk})
-
-    def form_valid(self, form):
-        messages.success(self.request,"Well Done! You are in")
-        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
