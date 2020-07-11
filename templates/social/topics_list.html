@@ -1,5 +1,5 @@
 {%extends '../base.html'%}
-
+{%load social_tags%}
 {%block content%}
 <div id="content" class="left-align roboto container">
     <div id="topics-list" class="list-group">
@@ -8,7 +8,9 @@
             class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{topic.name}}</h5>
+                <small>Since {{topic.creation_date|daysCount}} days</small>
             </div>
+            <p class="mb-1">{{topic.description}}</p>
             <p class="mb-1">Join <i class="fas fa-plus-circle"></i></p>
             <small>Users: {{topic.user_set.all.count}}</small>
         </a>
