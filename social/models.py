@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User,Group
+from django.contrib.auth.models import User
+from accounts.models import *
 from django.utils import timezone
 from django.urls import reverse
 from django import template
@@ -7,7 +8,7 @@ register = template.Library()
 
 class Post(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE,related_name='author')
-    topic = models.ForeignKey(Group,on_delete=models.CASCADE,related_name='topic')
+    topic = models.ForeignKey(Topic,on_delete=models.CASCADE,related_name='topic')
     title = models.CharField(max_length=30,blank=False)
     is_published = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now=True)

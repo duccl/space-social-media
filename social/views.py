@@ -5,8 +5,9 @@ from django.views.generic import ListView, CreateView, DeleteView
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from . import models
-from django.contrib.auth.models import Group, User, Permission
+from .models import *
+from django.contrib.auth.models import User, Permission
+from accounts.models import *
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect,Http404
 from django.contrib.auth.decorators import login_required
@@ -16,7 +17,7 @@ login_url = 'accounts:login'
 
 def topics_actions_wrapper(request,*args, **kwargs):
     if(abs(kwargs['topic_id']) < (2 ** 31 - 1)):
-        topic = get_object_or_404(Group,pk=kwargs['topic_id'])
+        topic = get_object_or_404(Topic,pk=kwargs['topic_id'])
         user = get_object_or_404(User,pk=request.user.pk)
         if user and not user.groups.filter(name = topic.name).exists() and 'add' in kwargs:
             topic.user_set.add(user)
@@ -41,10 +42,10 @@ def removeUserFromTopic(request,*args, **kwargs):
 
 
 class TopicCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
-    model = Group
-    permission_required = ('auth.add_group')
+    model = Topic
+    permission_required = ('accounts.add_topic')
     template_name = "social/topic_create.html"
-    fields = ('name',)
+    fields = ('name','description')
     login_url = login_url
     def form_valid(self,form):
         topic = form.save()
@@ -69,14 +70,14 @@ class HomeView(TemplateView):
         return context
 
 class CommentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = models.Comment
+    model = Comment
     template_name = "social/comment_create.html"
     permission_required = ('social.add_comment')
     fields = ('comment_content',)
     login_url = login_url
     def form_valid(self, form):
         user = get_object_or_404(User, pk=self.request.user.pk)
-        post = get_object_or_404(models.Post, id=self.kwargs['post_id'])
+        post = get_object_or_404(Post, id=self.kwargs['post_id'])
         comment = form.save(commit=False)
         comment.comment_author = user
         comment.post = post
@@ -90,7 +91,7 @@ class CommentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
 
 
 class CommentDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    model = models.Comment
+    model = Comment
     template_name = "social/comment_delete.html"
     permission_required = ('social.delete_comment')
     slug_field = 'id'
@@ -106,7 +107,7 @@ class CommentDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
 
 
 class CommentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = models.Comment
+    model = Comment
     template_name = "social/comment_update.html"
     permission_required = ('social.change_comment')
     slug_field = 'id'
@@ -122,14 +123,14 @@ class CommentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
         return reverse_lazy('social:post_detail', kwargs={'id': self.get_object().post.topic.pk, 'post_id': self.get_object().post.id})
 
 class TopicListView(LoginRequiredMixin,ListView):
-    model = Group
+    model = Topic
     template_name = 'social/topics_list.html'
     context_object_name = 'topics'
     login_url = login_url
 
 class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = ('social.change_post')
-    model = models.Post
+    model = Post
     template_name = 'social/post_edit.html'
     slug_field = 'id'
     slug_url_kwarg = 'post_id'
@@ -146,7 +147,7 @@ class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
 class PostDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     permission_required = ('social.view_post')
-    model = models.Post
+    model = Post
     template_name = "social/post_detail.html"
     slug_field = 'id'
     slug_url_kwarg = 'post_id'
@@ -154,7 +155,7 @@ class PostDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     login_url = login_url
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = models.Comment.objects.filter(
+        context['comments'] = Comment.objects.filter(
             post=self.get_object())
         context['topic_id'] = self.kwargs['id']
         context["title"] = self.get_object().title
@@ -162,7 +163,7 @@ class PostDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 
 
 class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = models.Post
+    model = Post
     template_name = "social/post_create.html"
     permission_required = ('social.add_post')
     fields = ('title', 'content')
@@ -176,7 +177,7 @@ class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return 'Publish' in self.request.POST
 
     def form_valid(self, form):
-        topic = get_object_or_404(Group, pk=self.kwargs['id'])
+        topic = get_object_or_404(Topic, pk=self.kwargs['id'])
         user = get_object_or_404(User, pk=self.request.user.pk)
         post = form.save(commit=False)
         post.author = user
@@ -187,7 +188,7 @@ class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
 
 class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    model = models.Post
+    model = Post
     template_name = "social/post_delete.html"
     permission_required = ('social.delete_post')
     slug_field = 'id'
@@ -197,7 +198,7 @@ class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         return reverse_lazy('accounts:profile', kwargs={'id': self.request.user.pk})
 
 class DraftListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    model = models.Post
+    model = Post
     template_name = "social/post_list.html"
     permission_required = ('social.view_post','social.change_post')
     context_object_name = 'posts'
@@ -208,11 +209,11 @@ class DraftListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return context
 
     def get_queryset(self):
-        return models.Post.objects.filter(author = self.request.user,is_published=False)
+        return Post.objects.filter(author = self.request.user,is_published=False)
     
 
 class PostListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    model = models.Post
+    model = Post
     template_name = "social/post_list.html"
     permission_required = ('social.view_post')
     context_object_name = 'posts'
@@ -223,5 +224,5 @@ class PostListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return context
 
     def get_queryset(self):
-        topic = get_object_or_404(Group, pk=self.kwargs['id'])
-        return models.Post.objects.filter(topic=topic, is_published=True)
+        topic = get_object_or_404(Topic, pk=self.kwargs['id'])
+        return Post.objects.filter(topic=topic, is_published=True)
