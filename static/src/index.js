@@ -1,9 +1,3 @@
-const text_to_html = (element) =>{
-    $(element).each(function(){
-        $(this).html($(this).text())
-    })
-}
-
 async function activateMediumEditor(){
     let editor = await new MediumEditor('.editable');
 }
@@ -24,8 +18,7 @@ $('document').ready(function(){
         $(this).addClass('editable')
     })
     activateMediumEditor()
-    text_to_html('#conteudo')
-    text_to_html('.html-inside')
+
     alter_checkbox_form("#id_is_published","label[for='id_is_published']","Publish")
     $('.alert').delay(2000).slideUp(200,function(){
         $(this).alert('close')
