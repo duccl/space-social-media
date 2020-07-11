@@ -2,8 +2,8 @@
 {%load bootstrap3%}
 
 {%block content%}
-<div id="content" class="left-align roboto flex-row">
-    <div class="font-white wrapper flex-column-grow">
+<div id="content" class="left-align roboto flex-row row">
+    <div class="font-white wrapper flex-column-grow col-medium-6">
         <p class='title'>
             Space Social Media
         </p>
@@ -15,7 +15,7 @@
             If you wish to join sign-up <strong>now</strong>!
         </p>
     </div>
-    <div class='container justify-content-right' id="form-content">
+    <div class='justify-content-right col-lg-6' id="form-content">
         <div class='justify-content-right row-reverse fade-in'>
             <form method="post" id="form-home">
                 {%csrf_token%}

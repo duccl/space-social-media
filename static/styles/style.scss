@@ -47,6 +47,8 @@ $pluto-orb : 780px; $pluto-pl: 3px;
 
 $asteroids-belt-orb : 300px; $asteroids-belt-pl: 210px;
 
+
+
 *, *:before, *:after{
   padding:0;
   margin:0;
@@ -397,6 +399,7 @@ hr{
 }
 
 #content{
+  width: 100%;
   display: flex;
   color: white;
   padding-left: 60px;
@@ -458,8 +461,16 @@ hr{
   padding: 1em 4em 2em;
   width: 40%;
 }
-
-
+@media (max-width: 900px){
+  #content.col-medium-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  #form-content{
+    width: 100%;
+  }
+}
 .justify-content-right{
   justify-content: end;
 }
