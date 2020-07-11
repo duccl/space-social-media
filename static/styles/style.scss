@@ -553,6 +553,8 @@ textarea{
   animation: fade 3s linear;
 }
 
+
+
 @keyframes fade{
   0% { opacity: 0 }
   100% { opacity: 1 }
@@ -676,3 +678,4 @@ input[name="title"],input[name="name"],input[name="name"]:focus{
   text-align: center;
   color: white;
 }
+

@@ -1,10 +1,9 @@
 {%if messages%}
+<div class="d-flex justify-content-end">
     {%for message in messages%}
-        <div class="alert {{message.tags}} alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            {{message}}
+        <div class="alert {{message.tags}} fade-in margin-right" role="alert">
+            <h5 class='alert-heading'>{{message}}</h5>
         </div>
     {% endfor %}
+</div>
 {%endif%}
