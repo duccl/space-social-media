@@ -194,8 +194,10 @@ class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     slug_field = 'id'
     slug_url_kwarg = 'post_id'
     login_url = login_url
+    context_object_name = "post"
     def get_success_url(self):
         return reverse_lazy('accounts:profile', kwargs={'id': self.request.user.pk})
+    
 
 class DraftListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Post

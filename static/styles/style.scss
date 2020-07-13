@@ -580,6 +580,20 @@ form input[type="submit"]{
   width: 100%;
 }
 
+form input[type="submit"][class="btn btn-danger"]{
+  background-color: #dc3545;
+  width: fit-content;
+}
+
+form input[type="submit"][class="btn btn-primary"]{
+  background-color: #0069d9;
+  width: fit-content;
+}
+
+.display-inline{
+  display: inline;
+}
+
 #conteudo{
   h2,h1,h3,a{
     color: black;
