@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import RedirectView
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect,HttpResponseForbidden
@@ -14,8 +14,8 @@ class SignUpView(CreateView):
     template_name = "accounts/home.html"
     form_class = UserCreationForm
     model = User
-    success_url = ''
-    
+    success_url = reverse_lazy('accounts:login')
+
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return HttpResponseRedirect(reverse('accounts:profile',kwargs={'id':request.user.pk}))
