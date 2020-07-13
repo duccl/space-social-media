@@ -1,13 +1,15 @@
 {%extends '../base.html'%}
-{% load bootstrap3 %}
 
 {%block content%}
 <div class="container">
-    <h2>Do you really want to delete this comment?</h2>
+    <h3>Do you really want to delete this comment?</h3>
     <form id="delete_post" method="post">
         {%csrf_token%}
-        {% bootstrap_form form %}
+        {{ form.as_p }}
         <input type="submit" class='btn btn-danger' value="Delete">
+        <div class="display-inline">
+            <a class = "btn btn-primary" href="{% url 'social:post_detail' post_id=object.post.id id=object.post.topic.id %}">Cancel</a>
+        </div>
     </form>
 </div>
 {%endblock%}

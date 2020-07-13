@@ -31,7 +31,7 @@
             {%for comment in comments%}
             <li class="list-group-item">
                 <div class='justify-content-center html-inside'>
-                    <p class="roboto">{{comment.comment_content}}</p>
+                    <p class="roboto">{{comment.comment_content|safe}}</p>
                 </div>
                 <p class="font-italic roboto">{{comment.comment_author}}</p>
                 {%if comment.comment_author == user%}
