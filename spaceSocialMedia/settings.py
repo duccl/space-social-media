@@ -25,7 +25,7 @@ SECRET_KEY = secretKey()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['duccl.pythonanywhere.com']
+ALLOWED_HOSTS = ['duccl.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
