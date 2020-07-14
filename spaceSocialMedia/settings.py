@@ -58,6 +58,7 @@ ROOT_URLCONF = 'spaceSocialMedia.urls'
 MESSAGE_TAGS = {
     messages.INFO: 'alert-info',
     messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
 }
 
 TEMPLATES = [

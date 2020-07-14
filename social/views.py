@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView,RedirectView
 from django.shortcuts import get_object_or_404, get_list_or_404
-from django.views.generic import ListView, CreateView, DeleteView
+from django.views.generic import ListView, CreateView, DeleteView,RedirectView
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -11,35 +11,41 @@ from accounts.models import *
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect,Http404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 login_url = 'accounts:login'
 
-def topics_actions_wrapper(request,*args, **kwargs):
-    if(abs(kwargs['topic_id']) < (2 ** 31 - 1)):
-        topic = get_object_or_404(Topic,pk=kwargs['topic_id'])
-        user = get_object_or_404(User,pk=request.user.pk)
-        if user and not user.groups.filter(name = topic.name).exists() and 'add' in kwargs:
-            topic.user_set.add(user)
-        elif user and user.groups.filter(name = topic.name).exists() and 'remove' in kwargs:
-            topic.user_set.remove(user)
-        topic.save()
-        return
-    raise Http404()
+class JoinTopic(LoginRequiredMixin,RedirectView):
+    login_url = login_url
 
-@login_required
-def join_user_to_topic(request,*args, **kwargs):
-    kwargs['add'] = True
-    topics_actions_wrapper(request,*args,**kwargs)
-    return HttpResponseRedirect(reverse('social:topics'))
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("social:topics")
     
+    def get(self, request, *args, **kwargs):
+        topic = get_object_or_404(Topic,pk=kwargs.get('topic_id'))
+        user = get_object_or_404(User,pk=request.user.pk)
+        if not user.groups.filter(name = topic.name).exists():
+            topic.user_set.add(user)
+            messages.success(self.request,f"You joined {topic.name}!")
+        else:
+            messages.warning(self.request,f"You already joined {topic.name}!")
+        return super().get(request, *args, **kwargs)
 
-@login_required
-def removeUserFromTopic(request,*args, **kwargs):
-    kwargs['remove'] = True
-    topics_actions_wrapper(request,*args,**kwargs)
-    return HttpResponseRedirect(reverse('accounts:profile',kwargs={'id':request.user.pk}))
-
+class LeaveTopic(LoginRequiredMixin,RedirectView):
+    login_url = login_url
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("accounts:profile",kwargs={'id':self.request.user.pk})
+    
+    def get(self, request, *args, **kwargs):
+        topic = get_object_or_404(Topic,pk=kwargs.get('topic_id'))
+        user = get_object_or_404(User,pk=request.user.pk)
+        if user.groups.filter(name = topic.name).exists():
+            topic.user_set.remove(user)
+            messages.success(self.request,f"You leaved {topic.name}!")
+        else:
+            messages.warning(self.request,f"You are not in this {topic.name}!")
+        return super().get(request, *args, **kwargs)
 
 class TopicCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
     model = Topic
