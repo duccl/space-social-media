@@ -7,16 +7,19 @@
     <div id="profile-content" class="justify-content-center">
         <div class="row roboto flexed medium-size container">
             {%for group in user.groups.all%}
-            <div class="card margin-bottom group-desc col-md-4 margin-right">
-                <div class="card-body">
-                    <div class="card-title">
-                        <a class='detail-link' href="{%url 'social:post_list' id=group.pk%}">{{group.name}}</a>
+            <a class='detail-link' href="{%url 'social:post_list' id=group.pk%}">
+                <div class="card margin-bottom group-desc col-md-4 margin-right">
+                    <div class="card-body">
+                        <div class="card-title">
+                            {{group.name}}
+                        </div>
+                        <div class="card-text">Users: {{group.user_set.all.count}}</div>
+                        <small>Read Posts</small>
+                        <a href="{%url 'social:remove_from_topic' topic_id=group.pk%}"
+                            class="btn btn-danger float-right"><i class="fas fa-trash-alt"></i></a>
                     </div>
-                    <div class="card-text">Users: {{group.user_set.all.count}}</div>
-                    <a href="{%url 'social:remove_from_topic' topic_id=group.pk%}" class="btn btn-danger float-right"><i
-                            class="fas fa-trash-alt"></i></a>
                 </div>
-            </div>
+            </a>
             {%endfor%}
         </div>
     </div>
