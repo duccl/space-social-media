@@ -6,6 +6,7 @@ class PostAdmin(admin.ModelAdmin):
               'is_published','content','title']
     search_fields = ['title']
     list_filter = ['is_published']
+    list_display = ['author','is_published','created_date']
 
 admin.site.register(Post,PostAdmin)
 admin.site.register(Comment)
