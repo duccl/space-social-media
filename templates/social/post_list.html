@@ -28,7 +28,9 @@
     {%elif topic_id%}
     <div class='container roboto'>
         <h2>Sorry, we are without posts!</h2>
-        <p>Feel free to create <a href="{%url 'social:post_create' id=topic_id%}">one</a></p>
+        <a class='text-decoration-none' href="{%url 'social:post_create' id=topic_id%}">
+            <p>Feel free to create one <i class="fas fa-arrow-circle-right"></i></p>
+        </a>
     </div>
     {%endif%}
     {%if not posts and not topic_id%}
