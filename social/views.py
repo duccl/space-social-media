@@ -47,6 +47,15 @@ class LeaveTopic(LoginRequiredMixin,RedirectView):
             messages.warning(self.request,f"You are not in this {topic.name}!")
         return super().get(request, *args, **kwargs)
 
+class ResourcesView(TemplateView):
+    template_name = 'social/resources_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Resources'
+        return context
+    
+
 class TopicCreateView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
     model = Topic
     permission_required = ('accounts.add_topic')
@@ -203,6 +212,12 @@ class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     context_object_name = "post"
     def get_success_url(self):
         return reverse_lazy('accounts:profile', kwargs={'id': self.request.user.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = f"Delete {self.object().title}"
+        return context
+    
     
 
 class DraftListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -229,6 +244,7 @@ class PostListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['topic_id'] = self.kwargs['id']
+        context['title'] = "Posts"
         return context
 
     def get_queryset(self):

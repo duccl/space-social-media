@@ -15,4 +15,5 @@ urlpatterns = [
     path('joinUserToTopic/<int:topic_id>',views.JoinTopic.as_view(),name='join_topic'),
     path('removeUserFromTopic/<int:topic_id>',views.LeaveTopic.as_view(),name='remove_from_topic'),
     path('newTopic/',views.TopicCreateView.as_view(),name='new_topic'),
+    path('resources/',views.ResourcesView.as_view(),name='resources'),
 ]

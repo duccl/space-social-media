@@ -575,6 +575,13 @@ form input{
   width: 75%;
 }
 
+#resources{
+  a{
+    background: radial-gradient(black, transparent);
+    color:aliceblue;
+  }
+}
+
 form input[type="submit"]{
   background-color: #20FC8F;
   width: 100%;
