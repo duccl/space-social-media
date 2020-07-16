@@ -5,6 +5,7 @@ class PostAdmin(admin.ModelAdmin):
     fields = ['topic','author',
               'is_published','content','title']
     search_fields = ['title']
+    list_filter = ['is_published']
 
 admin.site.register(Post,PostAdmin)
 admin.site.register(Comment)
