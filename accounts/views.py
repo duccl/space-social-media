@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import RedirectView
-from django.contrib.auth import logout
+from django.contrib.auth import logout,authenticate,login
 from django.http import HttpResponseRedirect,HttpResponseForbidden
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
@@ -14,7 +14,11 @@ class SignUpView(CreateView):
     template_name = "accounts/home.html"
     form_class = UserCreationForm
     model = User
-    success_url = reverse_lazy('accounts:login')
+
+    def get_success_url(self):
+        user = authenticate(self.request,username=self.request.POST.get('username'),password=self.request.POST.get('password1'))
+        login(self.request,user=user)
+        return reverse('accounts:profile',kwargs={'id':self.request.user.pk})
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
