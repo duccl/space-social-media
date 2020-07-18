@@ -215,7 +215,7 @@ class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = f"Delete {self.object().title}"
+        context["title"] = f"Delete {self.object.title}"
         return context
     
     

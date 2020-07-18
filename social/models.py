@@ -15,6 +15,11 @@ class Post(models.Model):
     published_date = models.DateTimeField(null=True)
     content = models.TextField(default='')
 
+    def save(self):
+        if self.is_published:
+            self.published_date = timezone.now()
+        return super().save()
+
     def get_absolute_url(self):
         return reverse("social:detail", kwargs={"id": self.pk})
     
