@@ -1,8 +1,9 @@
 # space-social-media
-Django project based on a social media about space
+Django project based on a social media about space.
+![Site Homepage](space-social-media-pic.png)
 
 # About
-This project was made to the final lesson of the [udemy course](https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp/) and is hosted on [pythonanywhere](https://duccl.pythonanywhere.com/)
+This project was made to the final lesson of the [udemy course](https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp/) and is hosted on [pythonanywhere](https://duccl.pythonanywhere.com/).
 
 # Main Frameworks Used
 - [Django v3.0.8](https://github.com/django/django)
